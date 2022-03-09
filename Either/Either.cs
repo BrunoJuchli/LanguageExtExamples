@@ -45,7 +45,7 @@ public class Cache<TKey, TValue>
             (key, existingValue) => value);
     }
 
-    public Option<TValue> Get(TKey key)
+    public Option<TValue> TryGet(TKey key)
     {
         if (dictionary.TryGetValue(key, out TValue? value))
         {
@@ -67,7 +67,7 @@ public class Database
         syncRoot = ((ICollection)data).SyncRoot;
     }
 
-    public Option<Person> GetPersonById(PersonId id)
+    public Option<Person> TryGetPersonById(PersonId id)
     {
         lock (syncRoot)
         {
@@ -108,18 +108,18 @@ public class PersonRepository
 
     public Option<Person> GetPersonById(PersonId id)
     {
-        return cache.Get(id)
-            || GetPersonFromDatabaseAndStoreInCache(id);
+        return cache.TryGet(id)
+            || TryGetPersonFromDatabaseAndStoreInCache(id);
     }
 
-    private Option<Person> GetPersonFromDatabaseAndStoreInCache(PersonId id)
+    private Option<Person> TryGetPersonFromDatabaseAndStoreInCache(PersonId id)
     {
         return database
-            .GetPersonById(id)
+            .TryGetPersonById(id)
             .Map(person => cache.AddOrUpdate(id, person));
     }
 
-    public Either<AddPersonErrorResult, Person> Add(Person person)
+    public Either<AddPersonErrorResult, Person> TryAdd(Person person)
     {
         return database
             .Add(person)
@@ -138,7 +138,7 @@ public class Program
         Person person = personRepo
             .GetPersonById(personId)
             .IfNone(() => personRepo
-                .Add(new Person(personId, "Fido Either"))
+                .TryAdd(new Person(personId, "Fido Either"))
                 .IfLeft(error =>
                     throw new Exception(
                         CreateErrorMessageFor(error))));

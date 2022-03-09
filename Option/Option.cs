@@ -29,7 +29,7 @@ public class Cache<TKey, TValue>
             (key, existingValue) => value);
     }
 
-    public Option<TValue> Get(TKey key)
+    public Option<TValue> TryGet(TKey key)
     {
         if (dictionary.TryGetValue(key, out TValue? value))
         {
@@ -44,14 +44,14 @@ public class Database
 {
     private readonly ConcurrentDictionary<PersonId, Person> data = new();
 
-    public Option<Person> GetPersonById(PersonId id)
+    public Option<Person> TryGetPersonById(PersonId id)
     {
         return data.TryGetValue(id, out Person? person)
             ? person
             : None;
     }
 
-    public Option<Person> Add(Person person)
+    public Option<Person> TryAdd(Person person)
     {
         return data.TryAdd(person.Id, person)
             ? person
@@ -64,23 +64,23 @@ public class PersonRepository
     private readonly Cache<PersonId, Person> cache = new();
     private readonly Database database = new();
 
-    public Option<Person> GetPersonById(PersonId id)
+    public Option<Person> TryGetPersonById(PersonId id)
     {
-        return cache.Get(id)
-            || GetPersonFromDatabaseAndStoreInCache(id);
+        return cache.TryGet(id)
+            || TryGetPersonFromDatabaseAndStoreInCache(id);
     }
 
-    private Option<Person> GetPersonFromDatabaseAndStoreInCache(PersonId id)
+    private Option<Person> TryGetPersonFromDatabaseAndStoreInCache(PersonId id)
     {
         return database
-            .GetPersonById(id)
+            .TryGetPersonById(id)
             .Map(person => cache.AddOrUpdate(id, person));
     }
 
-    public Option<Person> Add(Person person)
+    public Option<Person> TryAdd(Person person)
     {
         return database
-            .Add(person)
+            .TryAdd(person)
             .Map(person => cache.AddOrUpdate(person.Id, person));
     }
 }
@@ -94,9 +94,9 @@ public class Program
         PersonId personId = new(Guid.NewGuid());
 
         Person person = personRepo
-            .GetPersonById(personId)
+            .TryGetPersonById(personId)
             .IfNone(() => personRepo
-                .Add(new Person(personId, "Fido Option"))
+                .TryAdd(new Person(personId, "Fido Option"))
                 .IfNone(() =>
                     throw new Exception(
                         $"Failed to add person with id {personId}")));
