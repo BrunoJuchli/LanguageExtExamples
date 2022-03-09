@@ -3,21 +3,7 @@ using System.Collections.Concurrent;
 
 using static LanguageExt.Prelude;
 
-PersonRepository personRepo = new();
-
-PersonId personId = new(Guid.NewGuid());
-
-Person person = personRepo
-    .GetPersonById(personId)
-    .IfNone(() => personRepo
-        .Add(new Person(personId, "Fido"))
-        .IfNone(() =>
-            throw new Exception(
-                $"Failed to add person with id {personId}")));
-
-Console.WriteLine(person.Name);
-
-Console.ReadKey();
+namespace Option;
 
 public record class PersonId(
     Guid Id)
@@ -96,5 +82,27 @@ public class PersonRepository
         return database
             .Add(person)
             .Map(person => cache.AddOrUpdate(person.Id, person));
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        PersonRepository personRepo = new();
+
+        PersonId personId = new(Guid.NewGuid());
+
+        Person person = personRepo
+            .GetPersonById(personId)
+            .IfNone(() => personRepo
+                .Add(new Person(personId, "Fido Option"))
+                .IfNone(() =>
+                    throw new Exception(
+                        $"Failed to add person with id {personId}")));
+
+        Console.WriteLine(person.Name);
+
+        Console.ReadKey();
     }
 }
