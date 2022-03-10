@@ -5,13 +5,7 @@ namespace EitherFull;
 public record class PersonId
 {
     private static readonly RangeInclusive Range =
-        RangeInclusive
-            .TryCreate(
-                5,
-                100)
-            .IfLeft(() =>
-                throw new Exception(
-                    $"Programming error defining {nameof(PersonId)}.{nameof(Range)}"));
+        RangeInclusive.Create(5, 100);
 
     private PersonId(int Value)
     {

@@ -33,4 +33,14 @@ public record struct RangeInclusive
             minimum,
             maximum);
     }
+
+    public static RangeInclusive Create(
+        int minimum,
+        int maximum)
+    {
+        return TryCreate(minimum, maximum)
+            .IfLeft(error =>
+                throw new ArgumentOutOfRangeException(
+                    error));
+    }
 }
