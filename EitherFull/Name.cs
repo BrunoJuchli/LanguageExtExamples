@@ -45,7 +45,7 @@ public record class Name
     public static Either<NameValidationError, Name> TryCreate(string value)
     {
         return ValidateLength(value)
-            .IfLeft(() => ValidateForbiddenCharacters(value))
+            .BindNone(() => ValidateForbiddenCharacters(value))
             .ToEither(() => new Name(value))
             .Swap();
     }

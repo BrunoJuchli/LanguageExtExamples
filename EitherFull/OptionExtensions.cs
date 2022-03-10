@@ -2,7 +2,7 @@
 
 public static class OptionExtensions
 {
-    public static Option<A> IfLeft<A>(
+    public static Option<A> BindNone<A>(
         this Option<A> option,
         Func<Option<A>> action)
     {
