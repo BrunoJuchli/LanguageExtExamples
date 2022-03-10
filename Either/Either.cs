@@ -77,6 +77,7 @@ public class Database
         }
     }
 
+    // improved to return error cause
     public Either<AddPersonErrorResult, Person> Add(Person person)
     {
         lock (syncRoot)
