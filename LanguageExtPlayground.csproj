@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <StartupObject>EitherFull.Program</StartupObject>
+    <RootNamespace />
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

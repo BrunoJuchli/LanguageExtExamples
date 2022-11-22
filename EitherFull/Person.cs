@@ -1,6 +1,6 @@
 ﻿namespace EitherFull;
 
-public record class Person(
+public record Person(
     PersonId Id,
     Name Name)
 {

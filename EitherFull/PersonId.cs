@@ -2,7 +2,7 @@
 
 namespace EitherFull;
 
-public record class PersonId
+public record PersonId
 {
     private static readonly RangeInclusive Range =
         RangeInclusive.Create(5, 100);

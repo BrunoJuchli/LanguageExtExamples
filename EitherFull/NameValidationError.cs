@@ -2,16 +2,16 @@
 
 namespace EitherFull;
 
-public record class NameValidationError
+public record NameValidationError
 {
     private NameValidationError() { }
 
-    public sealed record class Length(
+    public sealed record Length(
             string Name,
             RangeInclusive Range)
         : NameValidationError;
 
-    public sealed record class ForbiddenCharacter(
+    public sealed record ForbiddenCharacter(
             string Name,
             Seq<(int index, char character)> Violations,
             Seq<char> ForbiddenCharacters)

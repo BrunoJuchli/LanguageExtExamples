@@ -5,12 +5,12 @@ using static LanguageExt.Prelude;
 
 namespace Option;
 
-public record class PersonId(
+public record PersonId(
     Guid Id)
 {
 }
 
-public record class Person(
+public record Person(
     PersonId Id,
     string Name)
 {

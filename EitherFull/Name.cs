@@ -4,7 +4,7 @@ using static LanguageExt.Prelude;
 
 namespace EitherFull;
 
-public record class Name
+public record Name
 {
     private static readonly RangeInclusive LengthRange =
         RangeInclusive

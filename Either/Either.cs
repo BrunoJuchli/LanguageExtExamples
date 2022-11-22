@@ -6,28 +6,28 @@ using static LanguageExt.Prelude;
 
 namespace Either;
 
-public record class PersonId(
+public record PersonId(
     Guid Id)
 {
 }
 
-public record class Person(
+public record Person(
     PersonId Id,
     string Name)
 {
 }
 
-public record class AddPersonErrorResult
+public record AddPersonErrorResult
 {
     private AddPersonErrorResult()
     {
     }
 
-    public sealed record class DuplicateId(
+    public sealed record DuplicateId(
             PersonId Id)
         : AddPersonErrorResult;
 
-    public sealed record class DuplicateName(
+    public sealed record DuplicateName(
             string Name)
         : AddPersonErrorResult;
 }

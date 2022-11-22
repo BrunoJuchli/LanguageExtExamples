@@ -1,6 +1,6 @@
 ﻿namespace EitherFull;
 
-public record class AddPersonErrorResult
+public record AddPersonErrorResult
 {
     private AddPersonErrorResult(Person person)
     {
@@ -9,7 +9,7 @@ public record class AddPersonErrorResult
 
     public Person Person { get; }
 
-    public sealed record class DuplicateId
+    public sealed record DuplicateId
         : AddPersonErrorResult
     {
         public DuplicateId(Person person)
@@ -18,7 +18,7 @@ public record class AddPersonErrorResult
         }
     }
 
-    public sealed record class DuplicateName
+    public sealed record DuplicateName
         : AddPersonErrorResult
     {
         public DuplicateName(Person person)

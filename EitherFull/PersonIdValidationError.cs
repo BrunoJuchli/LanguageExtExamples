@@ -1,10 +1,10 @@
 ﻿namespace EitherFull;
 
-public record class PersonIdValidationError
+public record PersonIdValidationError
 {
     private PersonIdValidationError() { }
 
-    public sealed record class OutOfRange(
+    public sealed record OutOfRange(
             int Id,
             RangeInclusive Range)
         : PersonIdValidationError;
